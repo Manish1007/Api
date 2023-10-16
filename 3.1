@@ -1,0 +1,146 @@
+//created a folder name 'dust' to execute all the coding and connect with server
+// install all tools as per requirement
+npm init -y
+npm install mongoose
+
+//given name sample.js
+
+const mongoose = require('mongoose');
+
+// Connect to MongoDB (need to check server status before connecting)
+mongoose.connect('mongodb://localhost/ipl', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,});
+
+const playerSchema = new mongoose.Schema({
+  name: String,
+  team: String,
+  jersey: Number,
+  fours: Number,
+  sixes: Number,
+  score: Number,});
+
+// Players data
+const Player = mongoose.model('Player', playerSchema);
+Player.insertMany([
+  {
+	  name: 'ms dhoni',
+	  team: 'csk',
+ 	  jersey: 7,
+ 	  fours: 12,
+  	  sixes: 29,
+  	  score: 286,
+  },
+  {
+    	  name: 'david warner',
+	  team: 'srh',
+ 	  jersey: 48,
+ 	  fours: 45,
+  	  sixes: 21,
+  	  score: 678,
+  },
+
+  {
+	  name: 'sachin tendulukar',
+	  team: 'mi',
+ 	  jersey: 47,
+ 	  fours: 52,
+  	  sixes: 31,
+  	  score: 893,
+  },
+  {
+    	  name: 'kl rahul',
+	  team: 'kxip',
+ 	  jersey: 1,
+ 	  fours: 23,
+  	  sixes: 25,
+  	  score: 782,
+  }
+]);
+
+// queries
+async function performQueries() 
+
+{
+
+  // 1. Find the Player with jersey number
+  const jerseynumber = await Player.find({ jersey: 1 });
+  console.log('Find the Player with jersey number:', jerseynumber);
+
+  // 2. Find the Player with the most sixes
+  const mostsixes = await Player.findOne().sort('-sixes');
+  console.log('Player with the most fifties:', mostsixes);
+
+  // 3. Find the Player with the least score
+  const leastscore = await Player.findOne().sort('score');
+  console.log('Player with the least score:', leastscore);
+
+  // 4. Find the Player with the least fours
+  const leastfours = await Player.findOne().sort('fours');
+  console.log('Find the Player with the least fours:', leastfours);
+
+  // 5. Find the Player with the highest score
+  const highestscore = await Player.findOne().sort('-score');
+  console.log('Player with the most highest score:', highestscore);
+}
+
+// Perform the queries
+performQueries();
+
+//use node.sample.js to execute code in node.js
+
+//output for the above code
+
+C:\Users\manish\my-node-dust>node sample.js
+Find the Player with jersey number: [
+  {
+    _id: new ObjectId("652bb10a63327ec53a8d0f6a"),
+    name: 'kl rahul',
+    team: 'kxip',
+    jersey: 1,
+    fours: 23,
+    sixes: 25,
+    score: 782,
+    __v: 0
+  }
+]
+Player with the most fifties: {
+  _id: new ObjectId("652bb10a63327ec53a8d0f69"),
+  name: 'sachin tendulukar',
+  team: 'mi',
+  jersey: 47,
+  fours: 52,
+  sixes: 31,
+  score: 893,
+  __v: 0
+}
+Player with the least score: {
+  _id: new ObjectId("652bb10a63327ec53a8d0f67"),
+  name: 'ms dhoni',
+  team: 'csk',
+  jersey: 7,
+  fours: 12,
+  sixes: 29,
+  score: 286,
+  __v: 0
+}
+Find the Player with the least fours: {
+  _id: new ObjectId("652bb10a63327ec53a8d0f67"),
+  name: 'ms dhoni',
+  team: 'csk',
+  jersey: 7,
+  fours: 12,
+  sixes: 29,
+  score: 286,
+  __v: 0
+}
+Player with the most highest score: {
+  _id: new ObjectId("652bb10a63327ec53a8d0f69"),
+  name: 'sachin tendulukar',
+  team: 'mi',
+  jersey: 47,
+  fours: 52,
+  sixes: 31,
+  score: 893,
+  __v: 0
+}
